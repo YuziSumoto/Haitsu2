@@ -1,0 +1,118 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:LARGE}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  1030px;
+			height: 300px;
+			border: 1px double #000000; 
+		}
+		div.BtnLeft {
+			text-align: left;
+			float: left;
+		}
+		div.BtnRight {
+			text-align: right;
+		}
+		div.BtnLine {
+			font-weight:bold; padding:0.1em;
+		}
+  </style>
+
+	<title>消耗品発注 ITEM100</title>
+</head>
+
+<body>
+	<form name="Main" action="/haitsu110/" method="post" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">請求月</TH>
+		<TD style="width:100px">{{ DataRec.Hizuke|date:'Y/m' }}</TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE border="1" width="354px">
+	<TR style="height=0;border-style:none;">
+		<TD style="width:152px;border-style:none;"></TD>
+		<TD style="width:202px;border-style:none;"></TD>
+	</TR>
+	<TR>
+		<TH>部屋</TH>
+		<TD>
+			<input type="number" min="1" max="999" value="{{ DataRec.Room }}" name="Room" class="text" />
+		</TD>
+	</TR>
+	<TR>
+		<TH>カナ氏名</TH>
+		<TD>
+			<input type="text" class="text"
+			 value="{{ DataRec.KanaName|default_if_none:"" }}" name="KanaName" />
+		</TD>
+	</TR>
+	<TR>
+		<TH>氏名</TH>
+		<TD>
+			<input type="text" class="text" 
+				 value="{{ DataRec.Name|default_if_none:"" }}" name="Name"/>
+		</TD>
+	</TR>
+	<TR>
+		<TH>利用者負担額</TH>
+		<TD>
+			<input type="number" min="1" max="999999"  class="text" 
+				 value="{{ DataRec.Futan }}" name="Futan"/>
+		</TD>
+	</TR>
+	<TR>
+		<TH>ハイツⅡ計</TH>
+		<TD>
+			<input type="number" min="1" max="999999"  class="text" 
+				 value="{{ DataRec.Haitu2Kei }}" name="Haitu2Kei"/>
+		</TD>
+	</TR>
+	<TR>
+		<TH>病院</TH>
+		<TD>
+			<input type="number" min="1" max="999999"  class="text" 
+				 value="{{ DataRec.Byouin }}" name="Byouin"/>
+		</TD>
+	</TR>
+	<TR>
+		<TH>薬局</TH>
+		<TD>
+			<input type="number" min="1" max="999999"  class="text" 
+				 value="{{ DataRec.Yakkyoku }}" name="Yakkyoku"/>
+		</TD>
+	</TR>
+	<TR>
+		<TH>領収日</TH>
+		<TD>
+			<input type="date" name="Ryosyubi" class="text"
+				{% if DataRec.Ryosyubi %}
+					value="{{ DataRec.Ryosyubi|date:'Y/m/d'}}"
+				{% endif %}
+				/>
+		</TD>
+	</TR>
+
+</TABLE>
+
+<BR><BR><BR>
+<!--
+<input type="button" value = "前回発注複写" class="button"
+  onclick="location.href='/item120/'">
+-->
+　<input type="submit" value = "決定" name="BtnEnd" class="button">
+　　<input type="button" value = "中止" class="button"
+			onclick="location.href='/haitsu100/'">
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

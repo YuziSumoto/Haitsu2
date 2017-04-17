@@ -1,0 +1,114 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:XX-LARGE}
+    .button {font-size:XX-LARGE}
+		TH {background-color: cyan;}
+		.scr {
+			overflow-y: scroll;   /* スクロール表示 */ 
+			width:  1030px;
+			height: 300px;
+			border: 1px double #000000; 
+		}
+		div.BtnLeft {
+			text-align: left;
+			float: left;
+		}
+		div.BtnRight {
+			text-align: right;
+		}
+		div.BtnLine {
+			font-weight:bold; padding:0.1em;
+		}
+  </style>
+
+	<title>消耗品発注 ITEM100</title>
+</head>
+
+<body>
+	<form name="Main" action="/haitsu100/" method="post" style="font-size:X-LARGE">
+
+<TABLE border="1">
+	<TR>
+		<TH style="width:100px">請求月</TH>
+		<TD style="width:100px">{{ Nengetu }}</TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE border="1" width="1000px">
+	<TR>
+		<TH style="width:50px">部屋</TH>
+		<TH style="width:150px">氏名</TH>
+		<TH style="width:100px">利用者負担額</TH>
+		<TH style="width:100px">自費請求額</TH>
+		<TH style="width:100px">ハイツⅡ計</TH>
+		<TH style="width:100px">病院</TH>
+		<TH style="width:100px">薬局</TH>
+		<TH style="width:100px">合計</TH>
+		<TH style="width:100px">領収日</TH>
+		<TH style="width:50px">削除</TH>
+	</TR>
+</TABLE>
+<DIV class="scr">
+	<TABLE border="1">
+		<TR style="height=0;border-style:none;">
+<!--			<TH style="height=0;width:50px;border-style:none;"></TH> -->
+			<TD style="width:50px;border-style:none;"></TD>
+			<TD style="width:150px;border-style:none;"></TD>
+			<TD style="width:100px;border-style:none;"></TD>
+			<TD style="width:100px;border-style:none;"></TD>
+			<TD style="width:100px;border-style:none;"></TD>
+			<TD style="width:100px;border-style:none;"></TD>
+			<TD style="width:102px;border-style:none;"></TD>
+			<TD style="width:100px;border-style:none;"></TD>
+			<TD style="width:102px;border-style:none;"></TD>
+			<TD style="width:50px;border-style:none;"></TD>
+		</TR>
+			{% for DataRec in DataRecs %} 
+				<TR>
+					<TD>
+						<input type="submit" style="WIDTH:48px" Name="BtnSel{{ DataRec.key }}"
+						value = "{{ DataRec.Room|default_if_none:"" }}">
+					</TD>
+					<TD>{{ DataRec.Name|default_if_none:"" }}</TD>
+					<TD>{{ DataRec.Futan|default_if_none:"" }}</TD>
+					<TD>{{ DataRec.ZihiSeikyu|default_if_none:"" }}</TD>
+					<TD>{{ DataRec.Haitu2Kei|default_if_none:"" }}</TD>
+					<TD>{{ DataRec.Byouin|default_if_none:"" }}</TD>
+					<TD>{{ DataRec.Yakkyoku|default_if_none:"" }}</TD>
+					<TD>{{ DataRec.Goukei|default_if_none:"" }}</TD>
+					<TD>{{ DataRec.Ryosyubi|date:'Y/m/d' }}</TD>
+					<TD>
+						<input type="submit" style="WIDTH:48px" Name="BtnDel{{ DataRec.key }}"
+						value = "削除">
+					</TD>
+				</TR>
+			{% endfor %}
+	</TABLE>
+</DIV>
+
+
+<BR><BR><BR>
+<!--
+<input type="button" value = "前回発注複写" class="button"
+  onclick="location.href='/item120/'">
+-->
+<div class="BtnLine"> <!--　左右分割表示 -->
+	<div class="BtnLeft"> 
+			<input type="submit" value = "追加" name="BtnAdd" class="button">
+　　
+			<input type="submit" value = "前月複写" name="BtnCopy" class="button">
+	</div>
+	<div class="BtnRight">
+			<input type="button" value = "終了" class="button"
+				onclick="location.href='/'">
+		　　
+	</div>
+</div>
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>

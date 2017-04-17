@@ -1,0 +1,34 @@
+application: haitsu2-164500
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+# 保存はUTF-8指定しないとエラーになるから注意な
+
+# 業務選択画面
+- url: /haitsu000/.*
+  script: haitsu000.app
+
+# 入居者別個人別請求一覧画面
+- url: /haitsu100/.*
+  script: haitsu100.app
+
+# 入居者別個人別請求入力画面
+- url: /haitsu110/.*
+  script: haitsu110.app
+# 入居者別個人別請求印刷
+- url: /haitsu120/.*
+  script: haitsu120.app
+
+- url: .*
+  script: haitsu000.app
+
+libraries:
+- name: webapp2
+  version: "2.5.2"

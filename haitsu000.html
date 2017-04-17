@@ -1,0 +1,36 @@
+<html>
+<head>
+  <style type="text/css">
+    .text   {font-size:X-LARGE}
+    .button {font-size:XX-LARGE}
+  </style>
+
+	<title>Haitsu000</title>
+</head>
+
+<body>
+	<form name="Main" action="/haitsu000/" style="font-size:X-LARGE">
+処理対象月
+<select name="CmbNengetu"  class="text" onChange="this.form.submit()">
+	{{ StrNengetu|safe }}
+</select>
+<BR>
+<BR>
+
+<input type="submit" value = "入居者別個人別請求一覧" name="BtnHaitsu100" class="button"><BR>
+
+<BR>
+
+<input type="button" value = "印刷" class="button"
+	onclick="window.open('/haitsu120/{{ PrintParam }}');setTimeout('document.Main.submit()', 1000);">
+
+　　　　
+<input type="submit" value = "終了" name="BtnLogout" class="button"><BR>
+	
+<p	class="LblMsg">{{ LblMsg }}</p>
+
+
+</form>
+</body>
+
+</html>
