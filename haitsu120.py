@@ -95,7 +95,7 @@ class MainHandler(webapp2.RequestHandler):
 
   def SetColSize2(self,WorkSheet):  # 行,列サイズセット
 
-    ColWidth = ["列の幅",3,3,10,8,8,8,6,6,8,6]
+    ColWidth = ["列の幅",3,3,10,8,8,8,8,6,6,8,6]
     for i in range(1,len(ColWidth)):
       WorkSheet.col(i - 1).width = int(ColWidth[i] * 400)
 
@@ -133,7 +133,7 @@ class MainHandler(webapp2.RequestHandler):
     Row += 1
     WorkSheet.write_merge(Row,Row,Col  ,Col + 1,u"アイセイ薬局",Style)
     Row += 1
-    WorkSheet.write_merge(Row,Row,Col  ,Col + 1,u"　",Style)
+#    WorkSheet.write_merge(Row,Row,Col  ,Col + 1,u"石井外科受診代",Style)
     Row += 1
     WorkSheet.write_merge(Row,Row,Col  ,Col + 1,u"合計",Style)
 
@@ -159,9 +159,11 @@ class MainHandler(webapp2.RequestHandler):
     Col += 1
     WorkSheet.write(1,Col,u"ハイツⅡ計",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"病院",Style2)
+    WorkSheet.write(1,Col,u"ふたば病院",Style2)
     Col += 1
     WorkSheet.write(1,Col,u"薬局",Style2)
+    Col += 1
+    WorkSheet.write(1,Col,u"石井外科",Style2)
     Col += 1
     WorkSheet.write(1,Col,u"合計",Style2)
     Col += 1
@@ -191,14 +193,26 @@ class MainHandler(webapp2.RequestHandler):
       OutStr = ""
     WorkSheet.write(Row + 3,Col + 2,OutStr,Style)
 
+    WorkSheet.write(Row + 4,Col + 2,"",Style)
+
     if Rec.Yakkyoku != None:
       Goukei += Rec.Yakkyoku
       OutStr = u"￥" + "{:,d}".format(int(Rec.Yakkyoku))
     else:
       OutStr = ""
-    WorkSheet.write(Row + 4,Col + 2,OutStr,Style)
-    WorkSheet.write(Row + 5,Col + 2,"",Style)
-    WorkSheet.write(Row + 6,Col + 2,"",Style)
+    WorkSheet.write(Row + 5,Col + 2,OutStr,Style)
+
+    if Rec.Byouin2 != None:
+      WorkSheet.write_merge(Row + 6,Row + 6,Col  ,Col + 1,u"石井外科受診代",Style)
+      Goukei += Rec.Byouin2
+      OutStr = u"￥" + "{:,d}".format(int(Rec.Byouin2))
+    else:
+      WorkSheet.write_merge(Row + 6,Row + 6,Col  ,Col + 1,u" ",Style)
+      OutStr = ""
+    WorkSheet.write(Row + 6,Col + 2,OutStr,Style)
+#    WorkSheet.write(Row + 5,Col + 2,"",Style)
+
+#    WorkSheet.write(Row + 6,Col + 2,"",Style)
     WorkSheet.write(Row + 7,Col + 2,u"￥" + "{:,d}".format(int(Goukei)),Style)
 
     return
@@ -222,43 +236,50 @@ class MainHandler(webapp2.RequestHandler):
     Goukei = 0
     if Rec.Futan != None:
       Goukei -= Rec.Futan
-      OutStr = u"￥" + "{:,d}".format(int(Rec.Futan))
+      OutStr = int(Rec.Futan)
     else:
       OutStr = ""
     WorkSheet.write(Row,3,OutStr,StyleR)
 
     if Rec.Haitu2Kei != None:
       Goukei += Rec.Haitu2Kei
-      OutStr = u"￥" + "{:,d}".format(int(Rec.Haitu2Kei))
+      OutStr = int(Rec.Haitu2Kei)
     else:
       OutStr = ""
 
-    WorkSheet.write(Row,4,u"￥" + "{:,d}".format(int(Goukei)),StyleR)
+    WorkSheet.write(Row,4,int(Goukei),StyleR)
 
     WorkSheet.write(Row,5,OutStr,StyleR)
 
     if Rec.Byouin != None:
       Goukei += Rec.Byouin
-      OutStr = u"￥" + "{:,d}".format(int(Rec.Byouin))
+      OutStr = int(Rec.Byouin)
     else:
       OutStr = ""
     WorkSheet.write(Row,6,OutStr,StyleR)
 
     if Rec.Yakkyoku != None:
       Goukei += Rec.Yakkyoku
-      OutStr = u"￥" + "{:,d}".format(int(Rec.Yakkyoku))
+      OutStr = int(Rec.Yakkyoku)
     else:
       OutStr = ""
     WorkSheet.write(Row,7,OutStr,StyleR)
 
-    OutStr = u"￥" + "{:,d}".format(int(Goukei))
+    if Rec.Byouin2 != None:
+      Goukei += Rec.Byouin2
+      OutStr = int(Rec.Byouin2)
+    else:
+      OutStr = ""
     WorkSheet.write(Row,8,OutStr,StyleR)
+
+    OutStr = int(Goukei)
+    WorkSheet.write(Row,9,OutStr,StyleR)
 
     if Rec.Ryosyubi != None:
       OutStr = Rec.Ryosyubi.strftime('%Y/%m/%d')
     else:
       OutStr = ""
-    WorkSheet.write(Row,9,OutStr,StyleR)
+    WorkSheet.write(Row,10,OutStr,StyleR)
 
     return
 

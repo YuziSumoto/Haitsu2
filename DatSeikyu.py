@@ -10,8 +10,9 @@ class DatSeikyu(db.Model):
   Name              = db.StringProperty(multiline=False)      # 利用者名
   Futan             = db.IntegerProperty()                    # 利用者負担額
   Haitu2Kei         = db.IntegerProperty()                    # ハイツⅡ計
-  Byouin            = db.IntegerProperty()                    # 病院額
+  Byouin            = db.IntegerProperty()                    # ふたば病院額
   Yakkyoku          = db.IntegerProperty()                    # 薬局額
+  Byouin2           = db.IntegerProperty()                    # 石井外科額
   Ryosyubi          = db.DateTimeProperty(auto_now_add=False) # 領収日
 
   def GetMonth(self,Nengetu): # 月データ取得
@@ -67,6 +68,7 @@ class DatSeikyu(db.Model):
       AddRec.Byouin    =  Rec.Byouin     # 病院額
       AddRec.Yakkyoku  =  Rec.Yakkyoku   # 薬局額
       AddRec.Ryosyubi  =  Rec.Ryosyubi   # 領収日
+      AddRec.Byouin2   =  Rec.Byouin2    # 石井外科額
       AddRec.put()
 
     return

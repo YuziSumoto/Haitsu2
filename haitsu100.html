@@ -22,7 +22,7 @@
 		}
   </style>
 
-	<title>消耗品発注 ITEM100</title>
+	<title>データ一覧 HAITSU100</title>
 </head>
 
 <body>
@@ -35,18 +35,19 @@
 	</TR>
 </TABLE>
 <BR>
-<TABLE border="1" width="1000px">
+<TABLE border="1" width="1014px">
 	<TR>
-		<TH style="width:50px">部屋</TH>
-		<TH style="width:150px">氏名</TH>
+		<TH style="width:54px">部屋</TH>
+		<TH style="width:145px">氏名</TH>
 		<TH style="width:100px">利用者負担額</TH>
 		<TH style="width:100px">自費請求額</TH>
 		<TH style="width:100px">ハイツⅡ計</TH>
-		<TH style="width:100px">病院</TH>
+		<TH style="width:100px">ふたば病院</TH>
 		<TH style="width:100px">薬局</TH>
+		<TH style="width:100px">石井外科</TH>
 		<TH style="width:100px">合計</TH>
 		<TH style="width:100px">領収日</TH>
-		<TH style="width:50px">削除</TH>
+		<TH style="width:54px">削除</TH>
 	</TR>
 </TABLE>
 <DIV class="scr">
@@ -55,6 +56,7 @@
 <!--			<TH style="height=0;width:50px;border-style:none;"></TH> -->
 			<TD style="width:50px;border-style:none;"></TD>
 			<TD style="width:150px;border-style:none;"></TD>
+			<TD style="width:100px;border-style:none;"></TD>
 			<TD style="width:100px;border-style:none;"></TD>
 			<TD style="width:100px;border-style:none;"></TD>
 			<TD style="width:100px;border-style:none;"></TD>
@@ -76,6 +78,7 @@
 					<TD>{{ DataRec.Haitu2Kei|default_if_none:"" }}</TD>
 					<TD>{{ DataRec.Byouin|default_if_none:"" }}</TD>
 					<TD>{{ DataRec.Yakkyoku|default_if_none:"" }}</TD>
+					<TD>{{ DataRec.Byouin2|default_if_none:"" }}</TD>
 					<TD>{{ DataRec.Goukei|default_if_none:"" }}</TD>
 					<TD>{{ DataRec.Ryosyubi|date:'Y/m/d' }}</TD>
 					<TD>

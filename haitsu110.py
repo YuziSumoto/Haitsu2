@@ -91,6 +91,7 @@ class MainHandler(webapp2.RequestHandler):
         Rec.Ryosyubi   = None
       else:
         Rec.Ryosyubi   = datetime.datetime.strptime(self.request.get('Ryosyubi'), '%Y-%m-%d') 
+      Rec.Byouin2    = self.val(self.request.get('Byouin2'))
       Rec.put()
         
       self.redirect("/haitsu100/?Nengetu=" + Nengetu )

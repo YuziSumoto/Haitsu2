@@ -48,6 +48,8 @@ class MainHandler(webapp2.RequestHandler):
         Goukei += DataRec.Byouin
       if DataRec.Yakkyoku != None:
         Goukei += DataRec.Yakkyoku
+      if DataRec.Byouin2 != None:
+        Goukei += DataRec.Byouin2
       setattr(DataRec,"Goukei",Goukei)
 
     template_values = { 'Nengetu'   :Nengetu,
