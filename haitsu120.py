@@ -239,7 +239,7 @@ class MainHandler(webapp2.RequestHandler):
       OutStr = int(Rec.Futan)
     else:
       OutStr = ""
-    WorkSheet.write(Row,3,OutStr,StyleR)
+    WorkSheet.write(Row,3,OutStr,StyleR) # 負担額
 
     if Rec.Haitu2Kei != None:
       Goukei += Rec.Haitu2Kei
@@ -247,10 +247,15 @@ class MainHandler(webapp2.RequestHandler):
     else:
       OutStr = ""
 
-    WorkSheet.write(Row,4,int(Goukei),StyleR)
+    WorkSheet.write(Row,4,int(Goukei),StyleR) # ハイツⅡ計-負担
 
-    WorkSheet.write(Row,5,OutStr,StyleR)
+    WorkSheet.write(Row,5,OutStr,StyleR) # ハイツ２計
 
+    if Rec.Haitu2Kei != None:
+      Goukei = Rec.Haitu2Kei
+    else:
+      Goukei = 0
+      
     if Rec.Byouin != None:
       Goukei += Rec.Byouin
       OutStr = int(Rec.Byouin)
