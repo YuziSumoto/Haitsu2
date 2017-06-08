@@ -43,7 +43,11 @@ class MainHandler(webapp2.RequestHandler):
       if DataRec.Futan != None:
         ZihiSeikyu -= DataRec.Futan
       setattr(DataRec,"ZihiSeikyu",ZihiSeikyu)
-      Goukei = DataRec.Haitu2Kei
+      if DataRec.Haitu2Kei != None:
+        Goukei = DataRec.Haitu2Kei
+      else:
+        Goukei = 0
+        
       if DataRec.Byouin != None:
         Goukei += DataRec.Byouin
       if DataRec.Yakkyoku != None:
