@@ -75,7 +75,7 @@ class MainHandler(webapp2.RequestHandler):
 
     if self.request.get('BtnCopy')  != '': # 前月複写
       DatSeikyu().CopyRecs(Nengetu)
-      LblMsg = "複写しました。"
+      LblMsg = u"複写しました。"
 
     for param in self.request.arguments(): 
       if "BtnSel" in param:  # 更新ボタン？
