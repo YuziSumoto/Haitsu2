@@ -45,12 +45,12 @@ class DatSeikyu(db.Model):
 
   def CopyRecs(self,Nengetu): # 指定患者,指定日,指定Seq削除
 
-    if int(Nengetu[6:8]) == 1: # 1月?
-      Zengetu = str(int(Nengetu[0:4])-1) # 全年
+    if int(Nengetu[5:7]) == 1: # 1月?
+      Zengetu = str(int(Nengetu[0:3])-1) # 全年
       Zengetu += "/12" # 12月
     else:
       Zengetu  = Nengetu[0:5] # 当年
-      Zengetu += str(int(Nengetu[6:8])-1) # 前月
+      Zengetu += str(int(Nengetu[5:7])-1) # 前月
 
     Sql =  "SELECT * FROM DatSeikyu"
     Sql += " Where Hizuke = DATE('" + Zengetu.replace("/","-") + "-01')"
