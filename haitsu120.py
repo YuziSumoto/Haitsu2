@@ -60,22 +60,29 @@ class MainHandler(webapp2.RequestHandler):
 
     DataRec = DatSeikyu().GetMonth(Hizuke)
     Row = 0
-    Col = 1
+    Col = 0
 
-    Row2 = 2
+    Row2 = 1
+
+    WorkSheet2.top_margin    = 0.9 / 2.54    # 1インチは2.54cm
+    WorkSheet2.bottom_margin = 0.5 / 2.54    # 1インチは2.54cm
+    WorkSheet2.left_margin = 0.6 / 2.54    # 1インチは2.54cm
+    WorkSheet2.right_margin = 0.5 / 2.54    # 1インチは2.54cm
 
     self.SetColSize2(WorkSheet2) # 明細シートサイズセット
     self.SetTitle2(WorkSheet2,Style)      # 固定部分セット
 
+    self.SetColSize(WorkSheet,0) # 行,列サイズセット
+    self.SetColSize(WorkSheet,4) # 行,列サイズセット
+
     for Rec in DataRec: # データループ
-      self.SetColSize(WorkSheet,Col) # 行,列サイズセット
       self.SetTitle(WorkSheet,Row,Col,Hizuke,Rec.Name,Style)      # 固定部分セット
       self.SetData(WorkSheet,Rec,Row,Col,Style)    # データセット
       self.SetData2(WorkSheet2,Rec,Row2,Style)      # 明細シートデータセット
-      if Col == 1:
-        Col = 5   # 右側
+      if Col == 0:
+        Col = 4   # 右側
       else:
-        Col = 1   # 左に戻す
+        Col = 0   # 左に戻す
         Row += 9  # 9行追加
       Row2 += 1 # 明細シート行
 
@@ -93,19 +100,19 @@ class MainHandler(webapp2.RequestHandler):
 #    WorkSheet.fit_num_pages = 1
     return
 
-  def SetColSize2(self,WorkSheet):  # 行,列サイズセット
+  def SetColSize(self,WorkSheet,Col):  # 行,列サイズセット
 
-    ColWidth = ["列の幅",3,3,10,8,8,8,8,6,6,8,6]
+    ColWidth = ["列の幅",10,10,9,5]
     for i in range(1,len(ColWidth)):
-      WorkSheet.col(i - 1).width = int(ColWidth[i] * 400)
+      WorkSheet.col(Col + i - 1).width = int(ColWidth[i] * 400)
 
     return
 
-  def SetColSize(self,WorkSheet,Col):  # 行,列サイズセット
+  def SetColSize2(self,WorkSheet):  # 行,列サイズセット
 
-    ColWidth = ["列の幅",2,10,10,9,2]
+    ColWidth = ["列の幅",3,11,7,7,7,7,5,5,7,6]
     for i in range(1,len(ColWidth)):
-      WorkSheet.col(Col + i - 2).width = int(ColWidth[i] * 400)
+      WorkSheet.col(i - 1).width = int(ColWidth[i] * 400)
 
     return
 
@@ -139,45 +146,54 @@ class MainHandler(webapp2.RequestHandler):
 
     return
 
-  def SetTitle2(self,WorkSheet,Style):  # 固定部分セット
+  def SetTitle2(self,WorkSheet,Style):  # 固定部分セット 一覧
 
     Style2 = self.SetStyle("THIN","THIN","THIN","THIN",xlwt.Alignment.VERT_CENTER,xlwt.Alignment.HORZ_CENTER) 
     font = xlwt.Font() # Create the Font
     font.height = 130
     Style2.font = font
 
+    WorkSheet.row(0).height_mismatch = 1
+    WorkSheet.row(0).height = 300
+
     Col = 0
-    WorkSheet.write(1,Col,u"番号",Style2)
+    WorkSheet.write(0,Col,u"番号",Style2)
+#    Col += 1
+#    WorkSheet.write(1,Col,u"部屋\n番号",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"部屋\n番号",Style2)
+    WorkSheet.write(0,Col,u"氏名",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"氏名",Style2)
+    WorkSheet.write(0,Col,u"利用者負担額",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"利用者負担額",Style2)
+    WorkSheet.write(0,Col,u"利用料自費",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"利用料自費請求額\n(家賃・食費など)",Style2)
+    WorkSheet.write(0,Col,u"ハイツⅡ計",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"ハイツⅡ計",Style2)
+    WorkSheet.write(0,Col,u"ふたば病院",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"ふたば病院",Style2)
+    WorkSheet.write(0,Col,u"薬局",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"薬局",Style2)
+    WorkSheet.write(0,Col,u"石井外科",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"石井外科",Style2)
+    WorkSheet.write(0,Col,u"合計",Style2)
     Col += 1
-    WorkSheet.write(1,Col,u"合計",Style2)
-    Col += 1
-    WorkSheet.write(1,Col,u"領収日",Style2)
+    WorkSheet.write(0,Col,u"領収日",Style2)
 
     return
 
   def SetData(self,WorkSheet,Rec,Row,Col,Style):  # データ部分セット
 
-    if Col == 1:
-      for i in range(0,9):
+    if Col == 0:
+      for i in range(0,8):
         WorkSheet.row(Row + i).height_mismatch = 1
         WorkSheet.row(Row + i).height = 600
-
+      WorkSheet.row(Row + 8).height_mismatch = 1
+      if ((Row + 8 + 1) % 27) == 0:  # ２７行目？ 
+        WorkSheet.row(Row + 8).height = 100
+        WorkSheet.horz_page_breaks = [(Row + 8 - 26, 0, 255), (Row + 9, 0, 255)] # 改ページ
+      else:
+        WorkSheet.row(Row + 8).height = 900
+        
     Goukei = 0
     if Rec.Haitu2Kei != None:
       Goukei += Rec.Haitu2Kei
@@ -219,6 +235,9 @@ class MainHandler(webapp2.RequestHandler):
 
   def SetData2(self,WorkSheet,Rec,Row,Style):  # データ部分セット
 
+    WorkSheet.row(Row).height_mismatch = 1
+    WorkSheet.row(Row).height = 460
+
     Style2 = self.SetStyle("THIN","THIN","THIN","THIN",xlwt.Alignment.VERT_CENTER,xlwt.Alignment.HORZ_CENTER) 
     font = xlwt.Font() # Create the Font
     font.height = 130
@@ -229,9 +248,9 @@ class MainHandler(webapp2.RequestHandler):
     font.height = 130
     StyleR.font = font
 
-    WorkSheet.write(Row,0,Row - 1,Style2)
-    WorkSheet.write(Row,1,Rec.Room,Style2)
-    WorkSheet.write(Row,2,Rec.Name,Style2)
+    WorkSheet.write(Row,0,Row,Style2)
+#    WorkSheet.write(Row,1,Rec.Room,Style2)
+    WorkSheet.write(Row,1,Rec.Name,Style2)
 
     Goukei = 0
     if Rec.Futan != None:
@@ -239,7 +258,7 @@ class MainHandler(webapp2.RequestHandler):
       OutStr = int(Rec.Futan)
     else:
       OutStr = ""
-    WorkSheet.write(Row,3,OutStr,StyleR) # 負担額
+    WorkSheet.write(Row,2,OutStr,StyleR) # 負担額
 
     if Rec.Haitu2Kei != None:
       Goukei += Rec.Haitu2Kei
@@ -247,9 +266,9 @@ class MainHandler(webapp2.RequestHandler):
     else:
       OutStr = ""
 
-    WorkSheet.write(Row,4,int(Goukei),StyleR) # ハイツⅡ計-負担
+    WorkSheet.write(Row,3,int(Goukei),StyleR) # ハイツⅡ計-負担
 
-    WorkSheet.write(Row,5,OutStr,StyleR) # ハイツ２計
+    WorkSheet.write(Row,4,OutStr,StyleR) # ハイツ２計
 
     if Rec.Haitu2Kei != None:
       Goukei = Rec.Haitu2Kei
@@ -261,30 +280,30 @@ class MainHandler(webapp2.RequestHandler):
       OutStr = int(Rec.Byouin)
     else:
       OutStr = ""
-    WorkSheet.write(Row,6,OutStr,StyleR)
+    WorkSheet.write(Row,5,OutStr,StyleR)
 
     if Rec.Yakkyoku != None:
       Goukei += Rec.Yakkyoku
       OutStr = int(Rec.Yakkyoku)
     else:
       OutStr = ""
-    WorkSheet.write(Row,7,OutStr,StyleR)
+    WorkSheet.write(Row,6,OutStr,StyleR)
 
     if Rec.Byouin2 != None:
       Goukei += Rec.Byouin2
       OutStr = int(Rec.Byouin2)
     else:
       OutStr = ""
-    WorkSheet.write(Row,8,OutStr,StyleR)
+    WorkSheet.write(Row,7,OutStr,StyleR)
 
     OutStr = int(Goukei)
-    WorkSheet.write(Row,9,OutStr,StyleR)
+    WorkSheet.write(Row,8,OutStr,StyleR)
 
     if Rec.Ryosyubi != None:
       OutStr = Rec.Ryosyubi.strftime('%Y/%m/%d')
     else:
       OutStr = ""
-    WorkSheet.write(Row,10,OutStr,StyleR)
+    WorkSheet.write(Row,9,OutStr,StyleR)
 
     return
 
