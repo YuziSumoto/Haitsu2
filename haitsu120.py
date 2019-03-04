@@ -138,7 +138,7 @@ class MainHandler(webapp2.RequestHandler):
     Row += 1
     WorkSheet.write_merge(Row,Row,Col  ,Col + 1,u"診断書・自立支援申請等",Style)
     Row += 1
-    WorkSheet.write_merge(Row,Row,Col  ,Col + 1,u"あおぞら薬局",Style)
+    WorkSheet.write_merge(Row,Row,Col  ,Col + 1,u"アオゾラ薬局",Style)
     Row += 1
 #    WorkSheet.write_merge(Row,Row,Col  ,Col + 1,u"石井外科受診代",Style)
     Row += 1
